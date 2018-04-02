@@ -22,6 +22,9 @@ class CommentInput extends Component{
 		if(username){
 			this.setState({username})
 		}
+		// else{
+		// 	this.setState({username:'請輸入用戶名'})
+		// }
 	}
 	_saveUsername(username){
 		localStorage.setItem('username',username)
@@ -42,8 +45,11 @@ class CommentInput extends Component{
 	}
 	handleSubmit(){
 		if(this.props.onSubmit){
-			const{username,content}=this.state
-			this.props.onSubmit({username, content})
+			this.props.onSubmit({
+		        username: this.state.username,
+		        content: this.state.content,
+		        createdTime: +new Date()
+		      })
 		}
 		this.setState({content:''})
 	}
@@ -53,7 +59,8 @@ class CommentInput extends Component{
 					<div className='comment-field'>
 			          <span className='comment-field-name'>暱稱：</span>
 			          <div className='comment-field-input'>
-			            <input onBlur={this.handleUsernameBlur.bind(this)}
+			            <input 
+			            	   onBlur={this.handleUsernameBlur.bind(this)}
 			            	   value={this.state.username} 
 			            	   onChange={this.handleUsernameChange.bind(this)} />
 			          </div>
@@ -66,7 +73,7 @@ class CommentInput extends Component{
 			                      onChange={this.handleContentChange.bind(this)}/>
 			          </div>
 			        </div>
-			        <div className='comment-field-button'>
+			        <div className='comment-field-button p-b-10'>
 			          <button onClick={this.handleSubmit.bind(this)}>
 			            發送
 			          </button>
